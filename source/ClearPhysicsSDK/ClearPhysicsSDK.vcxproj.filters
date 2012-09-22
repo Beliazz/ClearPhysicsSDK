@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="ClearPhysicsSDK.h" />
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="MathConversion.h" />
+    <ClInclude Include="NullPhysics.h" />
+    <ClInclude Include="BulletPhysics.h" />
+    <ClInclude Include="PhyEvents.h" />
+    <ClInclude Include="DebugDrawer.h" />
+    <ClInclude Include="PhysicsEventListener.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ClearPhysicsSDK.cpp" />
+    <ClCompile Include="MathConversion.cpp" />
+    <ClCompile Include="BulletPhysics.cpp" />
+    <ClCompile Include="PhyEvents.cpp" />
+    <ClCompile Include="DebugDrawer.cpp" />
+    <ClCompile Include="PhysicsEventListener.cpp" />
+  </ItemGroup>
+</Project>
