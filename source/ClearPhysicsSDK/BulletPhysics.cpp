@@ -154,7 +154,14 @@ void CLEAR_PHYSICS_API BulletPhysics::VOnUpdate( float const deltaSeconds )
 	//   passed, but will only run a maximum of 4 steps this way.
 
 	if (m_bRun)
+	{
 		m_dynamicsWorld->stepSimulation(deltaSeconds,10);
+
+		for(std::map<ActorId, shared_ptr<CKinematicController>>::iterator it = m_kinematicControllers.begin(); it != m_kinematicControllers.end(); it++) 
+		{
+			it->second->Update(deltaSeconds);
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -928,6 +935,8 @@ void BulletPhysics::VAddCompoundShape( btCompoundShape* shape, IActor *actor, fl
 void BulletPhysics::VAddKinematicController( shared_ptr<CKinematicController> kinematicController, IActor *actor, float specificGravity, enum PhysicsMaterial mat )
 {
 	m_kinematicControllers[actor->VGetID()] = kinematicController;
+
+	kinematicController->SetDynmamicWorld(m_dynamicsWorld.get());
 }
 
 
