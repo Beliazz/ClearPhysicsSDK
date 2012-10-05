@@ -12,6 +12,9 @@ Vec CLEAR_PHYSICS_API btVector3_to_Vec( btVector3 const & btvec )
 	return Vec( btvec.x(), btvec.y(), btvec.z() );
 }
 
+
+
+
 //Mat to btTransform
 btTransform CLEAR_PHYSICS_API Mat_to_btTransform( Mat mat )
 {
@@ -19,17 +22,20 @@ btTransform CLEAR_PHYSICS_API Mat_to_btTransform( Mat mat )
 	btMatrix3x3 bulletRotation;
 	btVector3 bulletPosition;
 
+	XMFLOAT4X4 matData = mat.GetStorage();
+
+
 	// copy rotation matrix
 	for ( int row=0; row<3; ++row )
 		for ( int column=0; column<3; ++column )
-			bulletRotation[row][column] = mat.GetStorage().m[column][row];	// note the reversed indexing (row/column vs. column/row)
+			bulletRotation[row][column] = matData.m[column][row];	// note the reversed indexing (row/column vs. column/row)
 	//  this is because Mats are row-major matrices and
 	//  btMatrix3x3 are column-major.  This reversed indexing
 	//  implicitly transposes (flips along the diagonal) 
 	//  the matrix when it is copied.
 	// copy position
 	for ( int column=0; column<3; ++column )
-		bulletPosition[column] = mat.GetStorage().m[3][column];
+		bulletPosition[column] = matData.m[3][column];
 
 	return btTransform( bulletRotation, bulletPosition );
 }

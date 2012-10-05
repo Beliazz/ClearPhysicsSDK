@@ -10,7 +10,7 @@ BulletDebugDrawer::~BulletDebugDrawer()
 
 BulletDebugDrawer::BulletDebugDrawer()
 {
-	m_currentDebugMode = DBG_MAX_DEBUG_DRAW_MODE;
+	m_currentDebugMode = DBG_DrawWireframe;
 
 	m_pVertexLayout = NULL;
 	m_pVertexBuffer = NULL;
@@ -110,7 +110,7 @@ void BulletDebugDrawer::setDebugMode( int debugMode )
 
 int BulletDebugDrawer::getDebugMode() const
 {
-	return DBG_MAX_DEBUG_DRAW_MODE ;
+	return m_currentDebugMode;
 }
 
 void BulletDebugDrawer::Render(IScene* pScene)

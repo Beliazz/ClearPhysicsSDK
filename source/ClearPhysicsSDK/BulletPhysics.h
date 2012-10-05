@@ -69,6 +69,9 @@ public:
 
 	bool m_bRun;
 
+
+	std::map<ActorId, shared_ptr<CKinematicController>> m_kinematicControllers;
+
 	// keep track of the existing rigid bodies:  To check them for updates
 	//   to the actors' positions, and to remove them when their lives are over.
 	typedef std::map<ActorId, BulletActor*> ActorIDToBulletActorMap;
@@ -140,7 +143,7 @@ public:
 
 	virtual void VAddCompoundShape(btCompoundShape* shape, IActor *actor, float specificGravity, enum PhysicsMaterial mat);
 	virtual void VSetCompoundShapeChild(ActorId parentID, IActor* childActor, unsigned int index);
-
+	virtual void VAddKinematicController(shared_ptr<CKinematicController> kinematicController, IActor *actor, float specificGravity, enum PhysicsMaterial mat);
 
 	// Debugging
 	virtual void VRenderDiagnostics(IScene* pScene);

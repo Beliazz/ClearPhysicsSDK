@@ -521,23 +521,36 @@ void CLEAR_PHYSICS_API BulletPhysics::VApplyTorque(Vec dir, float magnitude, Act
 	}
 }
 
+cgl::PCGLTimer timer;
 /////////////////////////////////////////////////////////////////////////////
 bool CLEAR_PHYSICS_API BulletPhysics::VKinematicMove(Mat mat, ActorId aid)
 {
+	timer = cgl::CGLCpuTimer::Create();
+
+	timer->Start();
+	btRigidBody * const body = FindActorBody( aid );
+	timer->Stop();
+
 	if ( btRigidBody * const body = FindActorBody( aid ) )
 	{
 		// warp the body to the new position
-		body->getMotionState()->setWorldTransform( Mat_to_btTransform( mat ) );
-		body->setWorldTransform( Mat_to_btTransform( mat ) );
+		//body->getMotionState()->setWorldTransform( Mat_to_btTransform( mat ) );
+		timer->Start();
+		btTransform tmp = Mat_to_btTransform( mat );
+		timer->Stop();
+
+		timer->Start();
+		body->setWorldTransform( tmp );
+		timer->Stop();
+
 		return true;
 	}
 	else if ( BulletCompoundShapeChildActor * const child = FindCompoundShapeChild( aid ) )
 	{
 		child->m_pCompoundShape->updateChildTransform(child->m_compoundShapeIndex,Mat_to_btTransform( mat ));
-
+		timer->Stop();
 		return true;
 	}
-
 
 	return false;
 }
@@ -910,6 +923,11 @@ void BulletPhysics::VAddCompoundShape( btCompoundShape* shape, IActor *actor, fl
 	AddShape( actor, shape, mass, mat );
 	m_actorCompoundShapes[actor->VGetID()] = shape;
 
+}
+
+void BulletPhysics::VAddKinematicController( shared_ptr<CKinematicController> kinematicController, IActor *actor, float specificGravity, enum PhysicsMaterial mat )
+{
+	m_kinematicControllers[actor->VGetID()] = kinematicController;
 }
 
 

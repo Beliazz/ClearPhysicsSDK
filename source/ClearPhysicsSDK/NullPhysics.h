@@ -26,6 +26,7 @@ public:
 	virtual void VAddCompoundShape(btCompoundShape* shape, IActor *actor, float specificGravity, enum PhysicsMaterial mat) {}
 	virtual void VRemoveActor(ActorId id) { }
 	virtual Vec  VRayCast( Vec start, Vec end, bool& hit ) {return Vec();}
+	virtual void VAddKinematicController(shared_ptr<CKinematicController> kinematicController, IActor *actor, float specificGravity, enum PhysicsMaterial mat) {};
 
 	// Debugging
 	virtual void VRenderDiagnostics(IScene* pScene) { }

@@ -9,6 +9,7 @@
     <ClInclude Include="PhyEvents.h" />
     <ClInclude Include="DebugDrawer.h" />
     <ClInclude Include="PhysicsEventListener.h" />
+    <ClInclude Include="KinematicController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClearPhysicsSDK.cpp" />
@@ -17,5 +18,6 @@
     <ClCompile Include="PhyEvents.cpp" />
     <ClCompile Include="DebugDrawer.cpp" />
     <ClCompile Include="PhysicsEventListener.cpp" />
+    <ClCompile Include="KinematicController.cpp" />
   </ItemGroup>
 </Project>

@@ -76,6 +76,7 @@ using namespace std;
 #include "NullPhysics.h"
 #include "BulletPhysics.h"
 #include "PhysicsEventListener.h"
+#include "KinematicController.h"
 
 #endif
 

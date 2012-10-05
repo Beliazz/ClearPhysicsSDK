@@ -86,6 +86,7 @@ robocopy $(ProjectDir) $(BLOCO_HOME)\$(ProjectName)\include "*.h" /PURGE /XD "$(
     <ClInclude Include="ClearPhysicsSDK.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DebugDrawer.h" />
+    <ClInclude Include="KinematicController.h" />
     <ClInclude Include="MathConversion.h" />
     <ClInclude Include="NullPhysics.h" />
     <ClInclude Include="PhyEvents.h" />
@@ -95,6 +96,7 @@ robocopy $(ProjectDir) $(BLOCO_HOME)\$(ProjectName)\include "*.h" /PURGE /XD "$(
     <ClCompile Include="BulletPhysics.cpp" />
     <ClCompile Include="ClearPhysicsSDK.cpp" />
     <ClCompile Include="DebugDrawer.cpp" />
+    <ClCompile Include="KinematicController.cpp" />
     <ClCompile Include="MathConversion.cpp" />
     <ClCompile Include="PhyEvents.cpp" />
     <ClCompile Include="PhysicsEventListener.cpp" />
