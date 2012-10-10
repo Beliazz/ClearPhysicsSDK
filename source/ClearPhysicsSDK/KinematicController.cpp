@@ -31,7 +31,6 @@ CKinematicController::CKinematicController(shared_ptr<IActor> actor) :
 	m_iLastAnimationsKey = 0;
 
 	m_fProcessTime = 0.0f;
-	m_timer = cgl::CGLCpuTimer::Create();
 }
 
 CKinematicController::~CKinematicController()
@@ -50,11 +49,7 @@ void CKinematicController::Update(float const deltaSeconds)
 		m_fTime = m_pCurrentAnimationsTrack->GetStartTime();
 	}
 
-	m_timer->Start();
 	BuildAnimation();
-	m_timer->Stop();
-
-	m_fProcessTime = m_timer->get();
 }
 
 void CKinematicController::BuildAnimation()

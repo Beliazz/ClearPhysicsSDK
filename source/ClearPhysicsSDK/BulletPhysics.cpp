@@ -145,7 +145,6 @@ bool CLEAR_PHYSICS_API BulletPhysics::VInitialize()
 	m_fSyncVisualSceneTime = 0.0f;
 	m_fUpdateKinematicControllerTime = 0.0f;
 	m_fDebugDrawWorldTime = 0.0f;
-	m_timer = cgl::CGLCpuTimer::Create();
 
 	return true;
 }
@@ -163,19 +162,15 @@ void CLEAR_PHYSICS_API BulletPhysics::VOnUpdate( float const deltaSeconds )
 
 	if (m_bRun)
 	{
-		m_timer->Start();
 		m_dynamicsWorld->stepSimulation(deltaSeconds);
-		m_timer->Stop();
-		m_fStepSimulationTime = m_timer->get();
 	}
 
-	m_timer->Start();
 	for(std::map<ActorId, shared_ptr<CKinematicController>>::iterator it = m_kinematicControllers.begin(); it != m_kinematicControllers.end(); it++) 
 	{
 		it->second->Update(deltaSeconds);
 	}
-	m_timer->Stop();
-	m_fUpdateKinematicControllerTime = m_timer->get();
+
+	//m_fUpdateKinematicControllerTime = m_timer->get();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -184,10 +179,6 @@ void CLEAR_PHYSICS_API BulletPhysics::VOnUpdate( float const deltaSeconds )
 //
 void CLEAR_PHYSICS_API BulletPhysics::VSyncVisibleScene()
 {
-	m_timer->Start();
-
-
-
 	// Keep physics & graphics in sync
 
 	// check all the existing actor's bodies for changes. 
@@ -257,8 +248,7 @@ void CLEAR_PHYSICS_API BulletPhysics::VSyncVisibleScene()
 		}
 	}
 
-	m_timer->Stop();
-	m_fSyncVisualSceneTime = m_timer->get();
+	//m_fSyncVisualSceneTime = m_timer->get();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -491,7 +481,7 @@ void CLEAR_PHYSICS_API BulletPhysics::VRemoveActor(ActorId id)
 //
 void CLEAR_PHYSICS_API BulletPhysics::VRenderDiagnostics(IScene* pScene)
 {
-	m_timer->Start();
+	//m_timer->Start();
 	if (m_bDebugDrawWorld)
 	{
 		m_debugDrawer->PreRender();
@@ -501,8 +491,8 @@ void CLEAR_PHYSICS_API BulletPhysics::VRenderDiagnostics(IScene* pScene)
 		m_fDebugDrawWorldTime = 0.0f;
 		return;
 	}
-	m_timer->Stop();
-	m_fDebugDrawWorldTime = m_timer->get();
+// 	m_timer->Stop();
+// 	m_fDebugDrawWorldTime = m_timer->get();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -562,11 +552,7 @@ cgl::PCGLTimer timer;
 /////////////////////////////////////////////////////////////////////////////
 bool CLEAR_PHYSICS_API BulletPhysics::VKinematicMove(Mat mat, ActorId aid)
 {
-	timer = cgl::CGLCpuTimer::Create();
-
-	timer->Start();
 	btRigidBody * const body = FindActorBody( aid );
-	timer->Stop();
 
 	if ( btRigidBody * const body = FindActorBody( aid ) )
 	{

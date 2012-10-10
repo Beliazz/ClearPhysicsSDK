@@ -22,6 +22,7 @@ public:
 	Mat    GetBindPose()		  { return m_matBindPose; }
 	Mat*   GetGlobalMatrix()	  { return m_matGlobalMatrix;}
 	btTransform   GetBTBindPose() { return m_btTransformBindPose;}
+
 private:
 	string m_sName;
 	string m_sParentName;
@@ -123,7 +124,6 @@ private:
 	float m_fAnimationsSpeed;
 
 	float		   m_fProcessTime;
-	cgl::PCGLTimer m_timer;
 
 	//Physic member
 	btDynamicsWorld*    m_dynamicsWorld;

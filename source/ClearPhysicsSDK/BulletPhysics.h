@@ -76,8 +76,6 @@ public:
 	float m_fSyncVisualSceneTime;
 	float m_fUpdateKinematicControllerTime;
 	float m_fDebugDrawWorldTime;
-	cgl::PCGLTimer m_timer;
-
 
 	std::map<ActorId, shared_ptr<CKinematicController>> m_kinematicControllers;
 
