@@ -158,6 +158,6 @@ static float g_DensityTable[] =
 
 float CLEAR_PHYSICS_API SpecificGravity(enum PhysicsDensity substance)
 {
-	assert(substance<PhysDens_MaxDensities && _T("Parameter out of range"));
+	assert(substance < PhysDens_MaxDensities && _T("Parameter out of range"));
 	return g_DensityTable[substance];
 }
