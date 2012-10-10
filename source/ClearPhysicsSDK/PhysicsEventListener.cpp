@@ -33,6 +33,11 @@ bool CLEAR_PHYSICS_API PhysicsEventListener::HandleEvent( IEventData const & eve
 	{
 		m_pPhysics->TogglePause();
 	}
+	else if ( EvtData_Phys_RenderDiagnostic::sk_EventType == eventType )
+	{
+		const EvtData_Phys_RenderDiagnostic & ed = static_cast< const EvtData_Phys_RenderDiagnostic & >( event );
+		m_pPhysics->DebugDrawWorld(ed.m_value);
+	}
 
 	return false;
 }

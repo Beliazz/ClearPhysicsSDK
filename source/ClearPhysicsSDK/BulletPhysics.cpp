@@ -47,6 +47,7 @@ void CLEAR_PHYSICS_API ActorMotionState::setWorldTransform( const btTransform& w
 CLEAR_PHYSICS_API BulletPhysics::BulletPhysics()
 {
 	// auto_ptr<> will automatically initialize themselves to NULL
+	m_bDebugDrawWorld = false;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -139,6 +140,13 @@ bool CLEAR_PHYSICS_API BulletPhysics::VInitialize()
 	safeAddListener(m_pListener, EvtData_PhysSeparation::sk_EventType);
 	safeAddListener(m_pListener, EvtData_Phys_RenderDiagnostic::sk_EventType);
 
+
+	m_fStepSimulationTime = 0.0f;
+	m_fSyncVisualSceneTime = 0.0f;
+	m_fUpdateKinematicControllerTime = 0.0f;
+	m_fDebugDrawWorldTime = 0.0f;
+	m_timer = cgl::CGLCpuTimer::Create();
+
 	return true;
 }
 
@@ -155,13 +163,19 @@ void CLEAR_PHYSICS_API BulletPhysics::VOnUpdate( float const deltaSeconds )
 
 	if (m_bRun)
 	{
-		m_dynamicsWorld->stepSimulation(deltaSeconds,10);
-
-		for(std::map<ActorId, shared_ptr<CKinematicController>>::iterator it = m_kinematicControllers.begin(); it != m_kinematicControllers.end(); it++) 
-		{
-			it->second->Update(deltaSeconds);
-		}
+		m_timer->Start();
+		m_dynamicsWorld->stepSimulation(deltaSeconds);
+		m_timer->Stop();
+		m_fStepSimulationTime = m_timer->get();
 	}
+
+	m_timer->Start();
+	for(std::map<ActorId, shared_ptr<CKinematicController>>::iterator it = m_kinematicControllers.begin(); it != m_kinematicControllers.end(); it++) 
+	{
+		it->second->Update(deltaSeconds);
+	}
+	m_timer->Stop();
+	m_fUpdateKinematicControllerTime = m_timer->get();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -170,6 +184,10 @@ void CLEAR_PHYSICS_API BulletPhysics::VOnUpdate( float const deltaSeconds )
 //
 void CLEAR_PHYSICS_API BulletPhysics::VSyncVisibleScene()
 {
+	m_timer->Start();
+
+
+
 	// Keep physics & graphics in sync
 
 	// check all the existing actor's bodies for changes. 
@@ -238,6 +256,9 @@ void CLEAR_PHYSICS_API BulletPhysics::VSyncVisibleScene()
 			}
 		}
 	}
+
+	m_timer->Stop();
+	m_fSyncVisualSceneTime = m_timer->get();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -470,9 +491,18 @@ void CLEAR_PHYSICS_API BulletPhysics::VRemoveActor(ActorId id)
 //
 void CLEAR_PHYSICS_API BulletPhysics::VRenderDiagnostics(IScene* pScene)
 {
-	m_debugDrawer->PreRender();
-	m_dynamicsWorld->debugDrawWorld();
-	m_debugDrawer->Render( pScene );
+	m_timer->Start();
+	if (m_bDebugDrawWorld)
+	{
+		m_debugDrawer->PreRender();
+		m_dynamicsWorld->debugDrawWorld();
+		m_debugDrawer->Render( pScene );
+		
+		m_fDebugDrawWorldTime = 0.0f;
+		return;
+	}
+	m_timer->Stop();
+	m_fDebugDrawWorldTime = m_timer->get();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -818,7 +848,6 @@ void CLEAR_PHYSICS_API BulletPhysics::SendCollisionPairRemoveEvent( btRigidBody 
 
 		if ( !id0.valid() || !id1.valid() )
 		{
-			printf("Invalid Collision between: %i and %i\n",*id0, *id1);
 			// collision is ending between some object(s) that don't have actors.  we don't send events for that.
 			return;
 		}
@@ -937,6 +966,26 @@ void BulletPhysics::VAddKinematicController( shared_ptr<CKinematicController> ki
 	m_kinematicControllers[actor->VGetID()] = kinematicController;
 
 	kinematicController->SetDynmamicWorld(m_dynamicsWorld.get());
+}
+
+float BulletPhysics::GetStepSimulationTime()
+{
+	return m_fStepSimulationTime;
+}
+
+float BulletPhysics::GetSyncVisualSceneTime()
+{
+	return m_fSyncVisualSceneTime;
+}
+
+float BulletPhysics::GetKinematicControllerTime()
+{
+	return m_fUpdateKinematicControllerTime;
+}
+
+float BulletPhysics::GetDebugDrawWorldTime()
+{
+	return m_fDebugDrawWorldTime;
 }
 
 

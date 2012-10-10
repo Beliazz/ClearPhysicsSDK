@@ -107,9 +107,9 @@ struct CLEAR_PHYSICS_API EvtData_Phys_RenderDiagnostic : public BaseEventData
 	}
 
 	virtual void VBuildLuaEventData(void);
-
-private:
 	bool		m_value;
+private:
+
 	LuaObject	m_LuaEventData;
 };
 

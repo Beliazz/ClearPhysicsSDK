@@ -68,6 +68,15 @@ public:
 	EventListenerPtr m_pListener;
 
 	bool m_bRun;
+	bool m_bDebugDrawWorld;
+
+
+	//Profile Times
+	float m_fStepSimulationTime;
+	float m_fSyncVisualSceneTime;
+	float m_fUpdateKinematicControllerTime;
+	float m_fDebugDrawWorldTime;
+	cgl::PCGLTimer m_timer;
 
 
 	std::map<ActorId, shared_ptr<CKinematicController>> m_kinematicControllers;
@@ -125,6 +134,8 @@ public:
 	virtual void VSyncVisibleScene();
 	virtual void VOnUpdate( float deltaSeconds ); 
 	virtual void TogglePause();
+	virtual void DebugDrawWorld(bool value) { m_bDebugDrawWorld = value; } 
+
 	// common functionality used by VAddSphere, VAddBox, etc
 	void AddShape( IActor * actor, btCollisionShape * shape, btScalar mass, enum PhysicsMaterial mat );
 
@@ -161,6 +172,16 @@ public:
 	virtual void VSetVelocity(ActorId actorId, Vec vel);
 	virtual void VTranslate(ActorId actorId, Vec vec);
 	virtual void VStaticActor( ActorId actorId );
+
+	virtual int GetNumKinematicController()		 { return m_kinematicControllers.size(); }
+	virtual int GetNumPhysicActor()				 { return m_actorBodies.size(); }
+	virtual int GetNumPhysicCompoundActor()		 { return m_actorCompoundShapes.size(); }
+	virtual int GetNumPhysicCompoundChildActor() { return m_actorCSC.size(); }
+
+	virtual float GetStepSimulationTime();
+	virtual float GetSyncVisualSceneTime();
+	virtual float GetKinematicControllerTime();
+	virtual float GetDebugDrawWorldTime();
 };
 
 
