@@ -117,6 +117,13 @@ bool CLEAR_PHYSICS_API BulletPhysics::VInitialize()
 		m_solver.get(), 
 		m_collisionConfiguration.get() ) );
 
+
+	btContactSolverInfo& info = m_dynamicsWorld->getSolverInfo();
+	info.m_numIterations = 10;
+	info.m_minimumSolverBatchSize = 64;
+	info.m_splitImpulse = false;
+	info.m_solverMode = SOLVER_ENABLE_FRICTION_DIRECTION_CACHING | SOLVER_USE_WARMSTARTING | SOLVER_SIMD;
+
 	// and set the internal tick callback to our own method "BulletInternalTickCallback"
 	m_dynamicsWorld->setInternalTickCallback( BulletInternalTickCallback );
 	m_dynamicsWorld->setWorldUserInfo( this );
@@ -162,7 +169,8 @@ void CLEAR_PHYSICS_API BulletPhysics::VOnUpdate( float const deltaSeconds )
 
 	if (m_bRun)
 	{
-		m_dynamicsWorld->stepSimulation(deltaSeconds);
+
+		m_dynamicsWorld->stepSimulation(deltaSeconds, 10);
 	}
 
 	for(std::map<ActorId, shared_ptr<CKinematicController>>::iterator it = m_kinematicControllers.begin(); it != m_kinematicControllers.end(); it++) 
