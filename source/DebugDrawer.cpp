@@ -23,7 +23,7 @@ bool BulletDebugDrawer::Init()
 	int size = 0;
 	shared_ptr<char> pData = NULL;
 
-	myfile.open ("simple.fxc", ios::in|ios::binary|ios::ate);
+	myfile.open ("DebugDraw.fxc", ios::in|ios::binary|ios::ate);
 	if (!myfile.is_open())
 	{
 		return false;
@@ -44,8 +44,7 @@ bool BulletDebugDrawer::Init()
 
 
 	// Obtain the technique
-	m_pTechnique = cgl::CD3D11EffectTechniqueFromIndex::Create(m_pEffect, 2);
-
+	m_pTechnique = cgl::CD3D11EffectTechniqueFromIndex::Create(m_pEffect, 0);
 
 	if (!m_pTechnique->restore())
 		return false;
@@ -54,6 +53,7 @@ bool BulletDebugDrawer::Init()
 	D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 	UINT numElements = sizeof( layout ) / sizeof( layout[0] );
 
@@ -81,8 +81,16 @@ bool BulletDebugDrawer::Init()
 
 void BulletDebugDrawer::drawLine( const btVector3& from, const btVector3& to, const btVector3& color )
 {
-	m_data.push_back( D3DXVECTOR3( from.getX(), from.getY(), from.getZ() ) );
-	m_data.push_back( D3DXVECTOR3( to.getX(), to.getY(), to.getZ() ) );
+	PosColVertex vertexA;
+	vertexA.position = D3DXVECTOR3( from.getX(), from.getY(), from.getZ() );
+	vertexA.color	 = D3DXVECTOR3( color.getX(), color.getY(), color.getZ() );
+
+	PosColVertex vertexB;
+	vertexB.position = D3DXVECTOR3( to.getX(), to.getY(), to.getZ() );
+	vertexB.color	 = D3DXVECTOR3( color.getX(), color.getY(), color.getZ() );
+
+	m_data.push_back( vertexA );
+	m_data.push_back( vertexB );
 }
 
 void BulletDebugDrawer::drawContactPoint( const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color )
@@ -124,7 +132,7 @@ void BulletDebugDrawer::Render(IScene* pScene)
 	
 	D3D11_BUFFER_DESC bd;
 	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof( float ) * 3 * m_data.size();
+	bd.ByteWidth = sizeof( float ) * 6 * m_data.size();
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bd.CPUAccessFlags = 0;
 	bd.MiscFlags = 0;
@@ -135,7 +143,7 @@ void BulletDebugDrawer::Render(IScene* pScene)
 		return;
 
 	// Set vertex buffer
-	UINT stride = sizeof( float ) * 3;
+	UINT stride = sizeof( float ) * 6;
 	UINT offset = 0;
 	m_pContext->IASetVertexBuffers( 0, 1, &m_pVertexBuffer, &stride, &offset );
 

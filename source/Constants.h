@@ -3,6 +3,9 @@
 
 #include "ClearPhysicsSDK.h"
 
+namespace cpl
+{
+
 enum CLEAR_PHYSICS_API PhysicsMaterial
 {
 	PhysMat_Playdough,
@@ -96,6 +99,16 @@ enum CLEAR_PHYSICS_API PhysicsDensity
 	PhysDens_MaxDensities
 };
 
+#define BIT(x) (1<<(x))
+enum collisiontypes 
+{
+	COL_NOTHING  = 0, 
+	COL_BONE	 = BIT(0),
+	COL_SKELETON = BIT(1),
+	COL_BULLET	 = BIT(2),
+};
+
+}
 
 
 #endif //PhyConstatns_H__

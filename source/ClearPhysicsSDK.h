@@ -26,9 +26,11 @@
 #include <iterator>
 #include <fstream>
 #include <iostream>
+#include <assert.h>
 
 using namespace std;
 
+#pragma warning( disable : 4251 )
 
 //#define OLD_BULLET_VERSION
 #ifdef OLD_BULLET_VERSION
@@ -46,37 +48,29 @@ using namespace std;
 
 #else // OLD_BULLET_VERSION
 
-	#pragma comment(lib, "BulletCollision_Debug.lib")
-	#pragma comment(lib, "BulletDynamics_Debug.lib")
-	#pragma comment(lib, "LinearMath_Debug.lib")
-
 #include <btBulletCollisionCommon.h>
 #include <btBulletDynamicsCommon.h>
+#include <Bullet-C-Api.h>
 #include <BulletCollision/Gimpact/btGImpactShape.h>
 #include <BulletCollision/CollisionShapes/btShapeHull.h>
-#include <Bullet-C-Api.h>
+#include <BulletCollision/Gimpact/btGImpactCollisionAlgorithm.h>
+#include <BulletCollision/CollisionDispatch/btGhostObject.h>
+
 
 #endif
 
+#include <BlocoCore\include\Vec.h>
+#include <3dParty\FastDeligate\include\FastDelegate.h>
 
-
-
-#include <cgl.h>
-#pragma comment(lib, "ClearGraphicsLibrary.lib")
-
-#include <BlocoCore.h>
-#pragma comment(lib, "BlocoCore.lib")
-
-#include "PhyEvents.h"
-
-#include "DebugDrawer.h"
+#include "IPhysic.h"
 
 #include "Constants.h"
 #include "MathConversion.h"
 #include "NullPhysics.h"
+
+#include "DynamicMotionState.h"
+#include "KinematicMotionState.h"
 #include "BulletPhysics.h"
-#include "PhysicsEventListener.h"
-#include "KinematicController.h"
 
 #endif
 

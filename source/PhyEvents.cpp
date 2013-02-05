@@ -88,15 +88,15 @@ void CLEAR_PHYSICS_API EvtData_PhysCollision::VBuildLuaEventData( void )
 	m_LuaEventData.SetInteger( "ActorA", m_ActorA );
 	m_LuaEventData.SetInteger( "ActorB", m_ActorB );
 
-	LuaObject normalForceObj = m_LuaEventData.CreateTable( "NormalForce" );
-	normalForceObj.SetNumber( 1, m_SumNormalForce.GetX() );
-	normalForceObj.SetNumber( 2, m_SumNormalForce.GetY() );
-	normalForceObj.SetNumber( 3, m_SumNormalForce.GetZ() );
-
-	LuaObject frictionForceObj = m_LuaEventData.CreateTable( "FrictionForce" );
-	frictionForceObj.SetNumber( 1, m_SumFrictionForce.GetX() );
-	frictionForceObj.SetNumber( 2, m_SumFrictionForce.GetY() );
-	frictionForceObj.SetNumber( 3, m_SumFrictionForce.GetZ() );
+// 	LuaObject normalForceObj = m_LuaEventData.CreateTable( "NormalForce" );
+// 	normalForceObj.SetNumber( 1, m_SumNormalForce.GetX() );
+// 	normalForceObj.SetNumber( 2, m_SumNormalForce.GetY() );
+// 	normalForceObj.SetNumber( 3, m_SumNormalForce.GetZ() );
+// 
+// 	LuaObject frictionForceObj = m_LuaEventData.CreateTable( "FrictionForce" );
+// 	frictionForceObj.SetNumber( 1, m_SumFrictionForce.GetX() );
+// 	frictionForceObj.SetNumber( 2, m_SumFrictionForce.GetY() );
+// 	frictionForceObj.SetNumber( 3, m_SumFrictionForce.GetZ() );
 
 	m_bHasLuaEventData = true;
 }

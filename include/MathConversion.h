@@ -3,6 +3,9 @@
 
 #include "ClearPhysicsSDK.h"
 
+namespace cpl
+{
+
 //Vec to btVector3
 extern btVector3 CLEAR_PHYSICS_API Vec_to_btVector3( Vec vec );
 
@@ -17,5 +20,7 @@ extern Mat CLEAR_PHYSICS_API btTransform_to_Mat( btTransform const & trans );
 
 //PhysicsDensity to Gravity 
 extern float CLEAR_PHYSICS_API SpecificGravity(enum PhysicsDensity material);
+
+}
 
 #endif //PhyMathConversion_H__

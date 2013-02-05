@@ -156,22 +156,16 @@ struct CLEAR_PHYSICS_API EvtData_PhysCollision : public BaseEventData
 		return sk_EventType;
 	}
 
-	explicit EvtData_PhysCollision(ActorId actorA,
-		ActorId actorB,
-		Vec sumNormalForce,
-		Vec sumFrictionForce,
-		VecList collisionPoints )
-		: m_ActorA(actorA),
+	explicit EvtData_PhysCollision(ActorId actorA, ActorId actorB, ContactInfoList  contactInfoList ) : 
+		m_ActorA(actorA),
 		m_ActorB(actorB),
-		m_SumNormalForce(sumNormalForce),
-		m_SumFrictionForce(sumFrictionForce),
-		m_CollisionPoints(collisionPoints)
+		m_contactInfoList(contactInfoList)
 	{}
 
 
 	virtual IEventDataPtr VCopy() const
 	{
-		return IEventDataPtr ( DEBUG_CLIENTBLOCK EvtData_PhysCollision(m_ActorA, m_ActorB, m_SumNormalForce, m_SumFrictionForce, m_CollisionPoints));
+		return IEventDataPtr ( DEBUG_CLIENTBLOCK EvtData_PhysCollision(m_ActorA, m_ActorB, m_contactInfoList));
 	}
 
 	virtual LuaObject VGetLuaEventData(void) const
@@ -182,11 +176,9 @@ struct CLEAR_PHYSICS_API EvtData_PhysCollision : public BaseEventData
 
 	virtual void VBuildLuaEventData(void);
 
-	ActorId m_ActorA;
-	ActorId  m_ActorB;
-	Vec m_SumNormalForce;
-	Vec m_SumFrictionForce;
-	VecList m_CollisionPoints;
+	ActorId			 m_ActorA;
+	ActorId			 m_ActorB;
+	ContactInfoList  m_contactInfoList;
 
 private:
 	LuaObject	m_LuaEventData;

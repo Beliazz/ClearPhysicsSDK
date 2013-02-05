@@ -24,11 +24,8 @@ public:
 	float m_fSyncVisualSceneTime;
 	float m_fUpdateKinematicControllerTime;
 	float m_fDebugDrawWorldTime;
-<<<<<<< HEAD
-=======
 
 	std::map<ActorId,map<ComponentId,btRigidBody*>> m_actorMap;
->>>>>>> Stand-Alone Library
 
 	typedef std::map<btRigidBody const *, pair<ActorId,ComponentId>> RigidBodyIDPairMap;
 	RigidBodyIDPairMap m_rigidBodyToActorId;

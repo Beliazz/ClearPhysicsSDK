@@ -33,7 +33,13 @@ private:
 	cgl::PD3D11EffectVariable  m_pevMatView;
 	cgl::PD3D11EffectVariable  m_pevMatProj;
 
-	vector<D3DXVECTOR3> m_data;
+	struct PosColVertex
+	{
+		D3DXVECTOR3 position;
+		D3DXVECTOR3 color;
+	};
+
+	vector<PosColVertex> m_data;
 
 	ID3D11Device*		 m_pDevice;
 	ID3D11DeviceContext* m_pContext;

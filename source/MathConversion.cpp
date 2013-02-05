@@ -1,22 +1,19 @@
 #include "ClearPhysicsSDK.h"
 
 //Vec to btVector3
-btVector3 CLEAR_PHYSICS_API Vec_to_btVector3( Vec vec )
+btVector3 CLEAR_PHYSICS_API cpl::Vec_to_btVector3( Vec vec )
 {
 	return btVector3( vec.GetX(), vec.GetY(), vec.GetZ() );
 }
 
 //btVector3 to Vec
-Vec CLEAR_PHYSICS_API btVector3_to_Vec( btVector3 const & btvec )
+Vec CLEAR_PHYSICS_API cpl::btVector3_to_Vec( btVector3 const & btvec )
 {
 	return Vec( btvec.x(), btvec.y(), btvec.z() );
 }
 
-
-
-
 //Mat to btTransform
-btTransform CLEAR_PHYSICS_API Mat_to_btTransform( Mat mat )
+btTransform CLEAR_PHYSICS_API cpl::Mat_to_btTransform( Mat mat )
 {
 	// convert from Mat (GameCode) to btTransform (Bullet)
 	btMatrix3x3 bulletRotation;
@@ -41,7 +38,7 @@ btTransform CLEAR_PHYSICS_API Mat_to_btTransform( Mat mat )
 }
 
 //btTransform to Mat
-Mat CLEAR_PHYSICS_API btTransform_to_Mat( btTransform const & trans )
+Mat CLEAR_PHYSICS_API cpl::btTransform_to_Mat( btTransform const & trans )
 {
 	Mat mat;
 	mat = MatIdentity();
@@ -156,8 +153,12 @@ static float g_DensityTable[] =
 
 //PhysicsDensity to Gravity 
 
-float CLEAR_PHYSICS_API SpecificGravity(enum PhysicsDensity substance)
+float CLEAR_PHYSICS_API cpl::SpecificGravity(enum PhysicsDensity substance)
 {
+<<<<<<< HEAD:source/ClearPhysicsSDK/MathConversion.cpp
 	assert(substance < PhysDens_MaxDensities && _T("Parameter out of range"));
+=======
+	assert(substance<PhysDens_MaxDensities && "Parameter out of range");
+>>>>>>> Stand-Alone Library:source/MathConversion.cpp
 	return g_DensityTable[substance];
 }
